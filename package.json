@@ -1,0 +1,20 @@
+{
+  "name": "mqtt-vue-contact-form",
+  "version": "1.0.0",
+  "description": "A Vue renderless component for a contact form.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trx-base/mqtt-vue-contact-form.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trx-base/mqtt-vue-contact-form/issues"
+  },
+  "homepage": "https://github.com/trx-base/mqtt-vue-contact-form#readme"
+}
