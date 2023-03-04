@@ -1,8 +1,13 @@
 {
-  "name": "mqtt-vue-contact-form",
-  "version": "1.0.0",
+  "name": "@trx-base/mqtt-vue-contact-form",
+  "version": "0.0.1",
   "description": "A Vue renderless component for a contact form.",
-  "main": "index.js",
+  "main": "dist/library.js",
+  "module": "dist/library.mjs",
+  "files": [
+    "dist/*",
+    "src/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c --bundleConfigAsCjs"
