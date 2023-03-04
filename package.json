@@ -1,6 +1,6 @@
 {
   "name": "@trx-base/mqtt-vue-contact-form",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Vue renderless component for a contact form.",
   "main": "dist/library.js",
   "module": "dist/library.mjs",
