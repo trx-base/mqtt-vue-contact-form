@@ -1,8 +1,8 @@
 <template>
     <textarea />
 </template>
-<script>
+<script>  
 export default {
-  name: 'InputTextarea'
+  name: 'InputTextArea'
 }
 </script>
