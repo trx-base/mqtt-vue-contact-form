@@ -1,6 +1,6 @@
 {
   "name": "@trx-base/mqtt-vue-contact-form",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A Vue renderless component for a contact form.",
   "main": "dist/component.js",
   "files": [
@@ -8,7 +8,6 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c --bundleConfigAsCjs",
     "demo": "browser-sync start --server '.' --files '.' --single"
   },
   "repository": {
@@ -23,6 +22,7 @@
   },
   "homepage": "https://github.com/trx-base/mqtt-vue-contact-form#readme",
   "devDependencies": {
-    "browser-sync": "^2.28.3"
+    "browser-sync": "^2.28.3",
+    "eslit": "^6.0.0"
   }
 }

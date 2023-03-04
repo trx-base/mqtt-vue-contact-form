@@ -1,24 +1,15 @@
 const Component = {
-  template: `
-  <div>
-   <h1>mqtt-vue-contact-form</h1>
-   <p>{{ message }}</p>
-  </div>
-`,
-props: {
-  title: String
-},
-setup(props) {
+  props: { 
+    title: String 
+  },
+  setup(props) {
     const message = props.title + ' - Howdy, here is the composite speaking!'
-
-    // expose to template and other options API hooks
     return {
         message
     }
   },
-
   mounted() {
-    console.log("MqttVueContactForm") // 0
+    console.log("mqtt-vue-contact-form mounted.") // 0
   }
 }
  
