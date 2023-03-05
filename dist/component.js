@@ -2,7 +2,7 @@ export default {
   template: `<div>
        <h1>mqtt-vue-contact-form</h1>
        <h2><span style="color:red">{{ title }}</span><span> - {{ message }}</h2>
-       <h3><slot :title="title"/></h3>
+       <h3><slot :title="title" :message="message"/></h3>
       </div>`,
   props: { 
     title: String 
