@@ -1,12 +1,20 @@
 <html>
   <head>
     <script src="https://unpkg.com/vue@v3.2.47"></script>
-    <script src="dist/component.js" type="module"></script>
+    <script type="module"></script>
   </head>
   <body>
     <h1>Hello, world</h1>
     <div id="MqttVueContactForm">
-      <Component title="My first property"/>
+      <Component v-slot="slotProps" title="slotProps is the real deal!">
+        {{ slotProps.title }}
+      </Component>
     </div>
   </body>
+  <script type="module">
+    import Component from "./dist/component.js";
+    Vue.createApp({
+      components: { Component },
+    }).mount("#MqttVueContactForm");
+  </script>
 </html>
