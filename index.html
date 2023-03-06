@@ -4,10 +4,10 @@
     <script type="module"></script>
   </head>
   <body>
-    <h1>Hello, world</h1>
+    <h1>mqtt-vue-contact-form</h1>
     <div id="MqttVueContactForm">
-      <Component v-slot="slotProps" title="slotProps is the real deal!">
-        {{ slotProps.title }}: {{ slotProps.message }}
+      <Component :mqtt-host="mqttHost" v-slot="slotProps">
+        {{ slotProps }}
       </Component>
     </div>
   </body>
@@ -15,6 +15,10 @@
     import Component from "./dist/component.js";
     Vue.createApp({
       components: { Component },
+      setup() {
+        const mqttHost = "public.trxbroker.org:1833";
+        return { mqttHost };
+      },
     }).mount("#MqttVueContactForm");
   </script>
 </html>

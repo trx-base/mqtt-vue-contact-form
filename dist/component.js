@@ -1,19 +1,24 @@
 export default {
-  template: `<div>
-       <h1>mqtt-vue-contact-form</h1>
-       <h2><span style="color:red">{{ title }}</span><span> - {{ message }}</h2>
-       <h3><slot :title="title" :message="message"/></h3>
-      </div>`,
-  props: { 
-    title: String 
+  template: `
+  <div>
+    <h2>component.js</h2>
+    <slot :email="email"/>
+  </div>`,
+  props: {
+    mqttHost: String
   },
-  setup(props) {
-    const message = 'Howdy, here is the composite speaking!'
+  setup () {
+    const name = 'Name not set';
+    const email = 'Email not set';
+    const message = 'No message either';
     return {
-        message
-    }
+      name,
+      email,
+      message
+    };
   },
-  mounted() {
-    console.log("mqtt-vue-contact-form mounted.") // 0
+  mounted () {
+    console.log('Component mounted');
+    console.log('mqttHost: ' + this.mqttHost); // 0/ 0
   }
-}
+};
