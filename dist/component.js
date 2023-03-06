@@ -2,19 +2,22 @@ export default {
   template: `
   <div>
     <h2>component.js</h2>
-    <slot :email="email"/>
+    <slot :submit="submit"/>
   </div>`,
   props: {
     mqttHost: String
   },
   setup () {
-    const name = 'Name not set';
-    const email = 'Email not set';
-    const message = 'No message either';
+  
+    const submit = (fullName, email, message) => {
+      console.log("Submitting...")
+      console.log("Name:" + fullName)
+      console.log("Email:" + email)
+      console.log("Message:" + message)
+      console.log("---------------")
+    }
     return {
-      name,
-      email,
-      message
+      submit
     };
   },
   mounted () {
