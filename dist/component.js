@@ -1,20 +1,20 @@
 export default {
-  template: `<slot :submit="onSubmit"/>`,
+  template: '<slot :submit="onSubmit"/>',
   props: {
     mqttHost: String
   },
   setup () {
     return {
-      
+
     };
   },
   methods: {
-    onSubmit(fullName, email, message) {
-      console.log("Submitting...")
-      console.log("Name:" + fullName)
-      console.log("Email:" + email)
-      console.log("Message:" + message)
-      console.log("---------------")
+    onSubmit (fullName, email, message) {
+      console.log('Submitting...');
+      console.log('Name:' + fullName);
+      console.log('Email:' + email);
+      console.log('Message:' + message);
+      console.log('---------------');
     }
   },
   mounted () {
