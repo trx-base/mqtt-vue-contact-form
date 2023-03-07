@@ -10,20 +10,12 @@ export default {
     mqttHost: String
   },
   setup () {
-    return {
-
-    };
+    const mqttClient = mqtt.connect("ws://public.trxbroker.org:9001/mqtt");
+    return {mqttClient}
   },
   methods: {
     onSubmit (fullName, email, message) {
-      console.log('Submitting...');
-      console.log('Name:' + fullName);
-      console.log('Email:' + email);
-      console.log('Message:' + message);
-      console.log('---------------');
+      this.mqttClient.publish('mqtt-vue-contact-form/message', message);
     }
   },
-  mounted () {
-    const mqttClient = mqtt.connect("ws://public.trxbroker.org:9001/mqtt ");
-  }
 };
