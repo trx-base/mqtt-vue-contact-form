@@ -5,18 +5,26 @@ Prerequisites:
 */
 
 export default {
-  template: '<slot :submit="onSubmit"/>',
+  template: '<slot :form="form" :submit="onSubmit"/>',
   props: {
     mqttHost: String
   },
   data() {
     return {
       mqttClient: {},
+      form: {
+        name: "",
+        email: "",
+        message: ""
+
+      }
+      
     }
   },
   methods: {
-    onSubmit (form) {
-      this.mqttClient.publish('mqtt-vue-contact-form/message', JSON.stringify(form));
+    onSubmit () {
+      this.mqttClient.publish('mqtt-vue-contact-form/message', JSON.stringify(this.form));
+      this.form = {}
     }
   },
   mounted() {
