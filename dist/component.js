@@ -9,13 +9,13 @@ export default {
   props: {
     mqttHost: String
   },
-  setup () {
-    const mqttClient = mqtt.connect("ws://public.trxbroker.org:9001/mqtt");
+  setup (props) {
+    const mqttClient = mqtt.connect(props.mqttHost);
     return {mqttClient}
   },
   methods: {
-    onSubmit (fullName, email, message) {
-      this.mqttClient.publish('mqtt-vue-contact-form/message', message);
+    onSubmit (form) {
+      this.mqttClient.publish('mqtt-vue-contact-form/message', JSON.stringify(form));
     }
   },
 };

@@ -8,18 +8,16 @@
     <h1>mqtt-vue-contact-form</h1>
     <div id="MqttVueContactForm">
       <Component :mqtt-host="mqttHost" v-slot="slotProps">
-        <label for="fullName">Name:</label><br />
-        <input v-model="fullName" name="fullName" /><br />
+        <label>Name:</label><br />
+        <input v-model="form.name" name="fullName" /><br />
 
-        <label for="email">Email:</label><br />
-        <input v-model="email" name="email" /><br />
+        <label>Email:</label><br />
+        <input v-model="form.email" name="email" /><br />
 
-        <label for="message">Message:</label><br />
-        <textarea v-model="message" name="message"></textarea><br />
+        <label>Message:</label><br />
+        <textarea v-model="form.message" name="message"></textarea><br />
 
-        <button @click="slotProps.submit(fullName, email, message)">
-          Submit
-        </button>
+        <button @click="slotProps.submit(form)">Submit</button>
       </Component>
     </div>
   </body>
@@ -28,11 +26,9 @@
     Vue.createApp({
       components: { Component },
       setup() {
-        const mqttHost = "public.trxbroker.org:1833";
-        const fullName = "";
-        const email = "";
-        const message = "";
-        return { mqttHost, fullName, email, message };
+        const form = {};
+        const mqttHost = "ws://public.trxbroker.org:9001/mqtt";
+        return { mqttHost, form };
       },
     }).mount("#MqttVueContactForm");
   </script>
