@@ -17,7 +17,7 @@
         <label>Message:</label><br />
         <textarea v-model="form.message" name="message"></textarea><br />
 
-        <button @click="slotProps.submit(form)">Submit</button>
+        <button @click="submit(slotProps)">Submit</button>
       </Component>
     </div>
   </body>
@@ -25,10 +25,17 @@
     import Component from "./dist/component.js";
     Vue.createApp({
       components: { Component },
-      setup() {
-        const form = {};
-        const mqttHost = "ws://public.trxbroker.org:9001/mqtt";
-        return { mqttHost, form };
+      data() {
+        return {
+          form: {},
+          mqttHost: "ws://public.trxbroker.org:9001/mqtt"
+        }
+      },
+      methods: {
+        submit(slotProps) {
+          slotProps.submit(this.form);
+          this.form = {}
+        },
       },
     }).mount("#MqttVueContactForm");
   </script>
