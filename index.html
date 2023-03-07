@@ -1,6 +1,6 @@
 <html>
   <head>
-    <script src="https://unpkg.com/vue@v3.2.47"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script type="module"></script>
   </head>
@@ -29,7 +29,6 @@
       components: { Component },
       setup() {
         const mqttHost = "public.trxbroker.org:1833";
-        const mqttClient = mqtt.connect("ws://public.trxbroker.org:9001/mqtt ");
         const fullName = "";
         const email = "";
         const message = "";
