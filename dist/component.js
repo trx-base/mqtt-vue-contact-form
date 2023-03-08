@@ -9,25 +9,25 @@ export default {
   props: {
     mqttHost: String
   },
-  data() {
+  data () {
     return {
       mqttClient: {},
       form: {
-        name: "",
-        email: "",
-        message: ""
-
+        name: '',
+        email: '',
+        message: ''
       }
-      
-    }
+
+    };
   },
   methods: {
     onSubmit () {
       this.mqttClient.publish('mqtt-vue-contact-form/message', JSON.stringify(this.form));
-      this.form = {}
+      this.form = {};
     }
   },
-  mounted() {
+  mounted () {
+    // eslint-disable-next-line no-undef
     this.mqttClient = mqtt.connect(this.mqttHost);
   }
 };
