@@ -2,6 +2,7 @@
 Prerequisites:
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="https://unpkg.com/@trx-base/mqtt-vue-contact-form"></script>
 */
 
 export default {
