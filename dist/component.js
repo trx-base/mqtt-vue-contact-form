@@ -6,14 +6,14 @@ Prerequisites:
 */
 
 export default {
-  template: '<slot :form="form" :submit="onSubmit"/>',
+  template: '<slot :value="value" :submit="onSubmit"/>',
   props: {
     mqttHost: String
   },
   data () {
     return {
       mqttClient: {},
-      form: {
+      value: {
         name: '',
         email: '',
         message: ''
@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     onSubmit () {
-      this.mqttClient.publish('mqtt-vue-contact-form/message', JSON.stringify(this.form));
-      this.form = {};
+      this.mqttClient.publish('mqtt-vue-contact-form/message', JSON.stringify(this.value));
+      this.value = {};
     }
   },
   mounted () {
