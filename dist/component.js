@@ -24,9 +24,15 @@ export default {
   },
   methods: {
     submit () {
-      this.mqttClient.publish(this.mqttTopic, JSON.stringify(this.data.values));
+      this.mqttClient.publish(this.submitTopic, JSON.stringify(this.data.values));
       this.data.values = {};
       this.data.messages.general = 'Thank you for reaching out to us. Our team will be in touch with you soon.';
+    }
+  },
+  computed: {
+    // a computed getter
+    submitTopic () {
+      return this.mqttTopic + '/mqtt-vue-contact-form/submit';
     }
   },
   mounted () {
