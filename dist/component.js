@@ -2,29 +2,31 @@
 Prerequisites:
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-  <script src="https://unpkg.com/@trx-base/mqtt-vue-contact-form"></script>
 */
 
 export default {
-  template: '<slot :value="value" :submit="onSubmit"/>',
+  template: '<slot :data="data" :submit="submit"/>',
   props: {
-    mqttHost: String
+    mqttHost: String,
+    mqttTopic: String
   },
   data () {
     return {
       mqttClient: {},
-      value: {
-        name: '',
-        email: '',
-        message: ''
+      data: {
+        values: {},
+        messages: {
+          general: ''
+        }
       }
 
     };
   },
   methods: {
-    onSubmit () {
-      this.mqttClient.publish('mqtt-vue-contact-form/message', JSON.stringify(this.value));
-      this.value = {};
+    submit () {
+      this.mqttClient.publish(this.mqttTopic, JSON.stringify(this.data.values));
+      this.data.values = {};
+      this.data.messages.general = 'Thank you for reaching out to us. Our team will be in touch with you soon.';
     }
   },
   mounted () {
