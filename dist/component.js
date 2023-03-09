@@ -30,7 +30,6 @@ export default {
     }
   },
   computed: {
-    // a computed getter
     submitTopic () {
       return this.mqttTopic + '/mqtt-vue-contact-form/submit';
     }
