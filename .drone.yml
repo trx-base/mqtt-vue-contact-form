@@ -3,6 +3,11 @@ type: docker
 name: default
 
 steps:
+- name: test
+  image: node
+  commands:
+    - npm install
+    - npm test
 - name: npm
   image: plugins/npm
   settings:
