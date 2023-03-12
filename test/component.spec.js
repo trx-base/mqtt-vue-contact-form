@@ -9,7 +9,12 @@ vi.stubGlobal('mqtt', mqtt);
 
 describe('mqtt-vue-contact-form', () => {
   it('should connect to mqtt when mounted', () => {
-    mount(Component, { mqttHost: 'wss://expectedHost' });
+    mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost'
+      }
+    });
+
     expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost');
   });
 });
