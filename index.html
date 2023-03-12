@@ -7,19 +7,22 @@
   <body>
     <h1>mqtt-vue-contact-form</h1>
     <div id="MqttVueContactForm">
-      <Component :mqtt-host="mqttHost" :mqtt-topic="mqttTopic" v-slot="slotProps">
+      <Component
+        :mqtt-host="mqttHost"
+        :mqtt-topic="mqttTopic"
+        v-slot="slotProps"
+      >
         <label>Name:</label><br />
-        <input v-model="slotProps.data.values.name" name="fullName" /><br />
+        <input v-model="slotProps.data.values.name" /><br />
 
         <label>Email:</label><br />
-        <input v-model="slotProps.data.values.email" name="email" /><br />
+        <input v-model="slotProps.data.values.email" /><br />
 
         <label>Message:</label><br />
-        <textarea v-model="slotProps.data.values.message" name="message"></textarea
-        ><br />
+        <textarea v-model="slotProps.data.values.message"></textarea><br />
 
         <button @click="slotProps.submit">Submit</button><br />
-        <div> {{ slotProps.data.messages.general }}</div>
+        <div>{{ slotProps.data.messages.general }}</div>
       </Component>
     </div>
   </body>
@@ -31,7 +34,7 @@
       data() {
         return {
           mqttHost: "wss://public.trxbroker.org/mqtt",
-          mqttTopic: "test"
+          mqttTopic: "test",
         };
       },
     }).mount("#MqttVueContactForm");

@@ -2,7 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Component from '../dist/component';
 
-vi.stubGlobal('mqtt', vi.mock());
+const mqtt = {
+  connect: vi.fn()
+};
+vi.stubGlobal('mqtt', mqtt);
 
 // The two tests marked with concurrent will be run in parallel
 describe('suite', () => {
@@ -12,5 +15,6 @@ describe('suite', () => {
 
   it('should do somehting with component', () => {
     const wrapper = mount(Component);
+    console.log(wrapper.html());
   });
 });
