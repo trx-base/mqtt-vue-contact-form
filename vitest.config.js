@@ -6,6 +6,10 @@ export default defineConfig({
   plugins: [vue()],
   test: {
     globals: true,
-    environment: 'happy-dom'
+    environment: 'happy-dom',
+    coverage: {
+      include: ['src'],
+      reporter: ['text', 'json', 'html']
+    }
   }
 });

@@ -1,6 +1,6 @@
 import { describe, it, vi, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import Component from '../dist/component';
+import Component from '../src/component';
 
 // Init Mocks
 const publish = vi.fn();
