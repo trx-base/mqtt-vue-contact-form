@@ -37,5 +37,6 @@ export default {
   mounted () {
     // eslint-disable-next-line no-undef
     this.mqttClient = mqtt.connect(this.mqttHost);
+    console.log('Component is mounted!');
   }
 };

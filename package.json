@@ -7,7 +7,8 @@
     "dist/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest --dom",
+    "coverage": "vitest run --coverage",
     "demo": "browser-sync start --server '.' --files '.' --single"
   },
   "repository": {
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/trx-base/mqtt-vue-contact-form#readme",
   "devDependencies": {
+    "@vue/test-utils": "^2.3.1",
     "browser-sync": "^2.28.3",
     "eslint": "^8.35.0",
     "eslint-config-semistandard": "^17.0.0",
@@ -30,6 +32,10 @@
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^9.9.0",
-    "eslit": "^6.0.0"
+    "eslit": "^6.0.0",
+    "vitest": "^0.29.2",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "happy-dom": "^8.9.0",
+    "vue": "^3.2.47"
   }
 }
