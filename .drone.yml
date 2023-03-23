@@ -8,7 +8,7 @@ steps:
   commands:
     - npm install
     - npm run test
-    - npm coverage
+    - npm run coverage
 - name: npm
   image: plugins/npm
   settings:
