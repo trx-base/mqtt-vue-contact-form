@@ -46,9 +46,7 @@ export default {
   },
   methods: {
     submit () {
-      this.mqttClient.publish(this.mqttTargetTopic, JSON.stringify(this.data.values));
-      this.data.values = {};
-      this.data.messages.general = 'Thank you for reaching out to us. Our team will be in touch with you soon.';
+      this.mqttClient.publish(this.mqttTargetTopic, JSON.stringify(this.data.values), { qos: 2 }, this.handlePublishCallback);
     },
     getMqttConnectionOptions () {
       const mqttConnectionOptions = {};
@@ -68,14 +66,19 @@ export default {
       this.data.actions.submit.disabled = false;
       this.data.messages.general = '';
     },
-    handleConnectError (error) {
-      console.error(error);
-      this.data.actions.submit.disabled = true;
-    },
     handleConnectClose (message) {
-      console.warn(message);
+      console.warn('handleConnectClose(): ' + message);
       this.data.actions.submit.disabled = true;
       this.data.messages.general = 'Form is being prepared. Please wait.';
+    },
+    handlePublishCallback (error) {
+      console.debug('handlePublishCallback(): ' + error);
+      if (error) {
+        this.data.messages.general = 'Sorry! Submit failed. This should not have happened.';
+      } else {
+        this.data.values = {};
+        this.data.messages.general = 'Thank you for reaching out to us. Our team will be in touch with you soon.';
+      }
     }
   },
   computed: {

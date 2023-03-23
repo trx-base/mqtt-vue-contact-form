@@ -117,17 +117,6 @@ describe('mqtt-vue-contact-form', () => {
     expect(wrapper.vm.data.actions.submit.disabled).toBe(false);
   });
 
-  it('should have disabled submit when mqtt connection error', () => {
-    const wrapper = mount(Component, {
-      propsData: {
-        mqttHost: 'wss://expectedHost',
-        mqttTopic: 'jestTest'
-      }
-    });
-    wrapper.vm.handleConnectError('Expected test error.');
-    expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
-  });
-
   it('should have disabled submit when mqtt connection disconnect after success', () => {
     const wrapper = mount(Component, {
       propsData: {
