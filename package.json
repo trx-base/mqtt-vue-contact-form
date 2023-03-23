@@ -7,6 +7,7 @@
     "dist/*"
   ],
   "scripts": {
+    "build": "cp -r ./src  ./dist",
     "test": "vitest --dom",
     "coverage": "vitest run --coverage",
     "demo": "browser-sync start --server '.' --files '.' --single"

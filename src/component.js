@@ -7,8 +7,20 @@ Prerequisites:
 export default {
   template: '<slot :data="data" :submit="submit"/>',
   props: {
-    mqttHost: String,
-    mqttTopic: String
+    mqttHost: {
+      type: String,
+      required: true
+    },
+    mqttTopic: {
+      type: String,
+      required: true
+    },
+    mqttUsername: {
+      type: String
+    },
+    mqttPassword: {
+      type: String
+    }
   },
   data () {
     return {
@@ -24,21 +36,37 @@ export default {
   },
   methods: {
     submit () {
-      this.mqttClient.publish(this.submitTopic, JSON.stringify(this.data.values));
-      if (false) {
-        console.log('nananan');
-      }
+      this.mqttClient.publish(this.mqttTargetTopic, JSON.stringify(this.data.values));
       this.data.values = {};
       this.data.messages.general = 'Thank you for reaching out to us. Our team will be in touch with you soon.';
+    },
+    getMqttConnectionOptions () {
+      const mqttConnectionOptions = {};
+      mqttConnectionOptions.clientId = this.mqttClientId;
+      if (this.mqttUsername) {
+        mqttConnectionOptions.username = this.mqttUsername;
+      }
+      if (this.mqttPassword) {
+        mqttConnectionOptions.password = this.mqttPassword;
+      }
+      return mqttConnectionOptions;
     }
   },
   computed: {
-    submitTopic () {
-      return this.mqttTopic + '/mqtt-vue-contact-form/submit';
+    mqttTargetTopic () {
+      return '/mqtt-vue-contact-form/' + this.mqttTopic + '/submit';
+    },
+    mqttClientId () {
+      return this.mqttTopic + '_' + random();
     }
   },
   mounted () {
     // eslint-disable-next-line no-undef
-    this.mqttClient = mqtt.connect(this.mqttHost);
+    this.mqttClient = mqtt.connect(this.mqttHost, this.getMqttConnectionOptions());
   }
 };
+
+export function random () {
+  // return Math.random().toString(16).substring(2, 8);
+  return 'etjen';
+}
