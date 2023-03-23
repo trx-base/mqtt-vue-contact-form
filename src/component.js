@@ -3,6 +3,7 @@ Prerequisites:
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 */
+import * as util from './util';
 
 export default {
   template: '<slot :data="data" :submit="submit"/>',
@@ -57,7 +58,7 @@ export default {
       return '/mqtt-vue-contact-form/' + this.mqttTopic + '/submit';
     },
     mqttClientId () {
-      return this.mqttTopic + '_' + random();
+      return this.mqttTopic + '_' + util.random();
     }
   },
   mounted () {
@@ -65,8 +66,3 @@ export default {
     this.mqttClient = mqtt.connect(this.mqttHost, this.getMqttConnectionOptions());
   }
 };
-
-export function random () {
-  // return Math.random().toString(16).substring(2, 8);
-  return 'etjen';
-}

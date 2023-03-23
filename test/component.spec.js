@@ -8,6 +8,12 @@ const mqtt = {
 };
 vi.stubGlobal('mqtt', mqtt);
 
+vi.mock('../src/util', () => {
+  return {
+    random: vi.fn().mockReturnValue('mockedRandom')
+  };
+});
+
 describe('mqtt-vue-contact-form', () => {
   // eslint-disable-next-line no-undef
   beforeEach(() => {
@@ -22,7 +28,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_etjen' });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom' });
   });
 
   it('should publish to topic when submit', async () => {
@@ -46,7 +52,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_etjen', username: 'expectedUsername', password: 'expectedPassword' });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', username: 'expectedUsername', password: 'expectedPassword' });
   });
 
   it('should set clientId when connecting to mqtt broker', () => {
@@ -57,6 +63,6 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_etjen' });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom' });
   });
 });
