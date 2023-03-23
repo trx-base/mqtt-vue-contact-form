@@ -94,4 +94,37 @@ describe('mqtt-vue-contact-form', () => {
     });
     expect(wrapper.vm.data.messages.general).toBe('Form is being prepared. Please wait.');
   });
+
+  it('should publish to topic when action.submit executed', async () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'test/expected/topic'
+      }
+    });
+    wrapper.vm.data.actions.submit.execute();
+    expect(mqtt.connect().publish).toHaveBeenCalledWith('mqtt-vue-contact-form/test/expected/topic/submit', '{}');
+  });
+
+  it('should have enabled submit when mqtt connection success', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.handleConnectSuccess();
+    expect(wrapper.vm.data.actions.submit.disabled).toBe(false);
+  });
+
+  it('should have disabled submit when mqtt connection error', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.handleConnectError('Expected test error.');
+    expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
+  });
 });

@@ -6,7 +6,7 @@ Prerequisites:
 import * as util from './util.js';
 
 export default {
-  template: '<slot :data="data" :submit="submit"/>',
+  template: '<slot :data="data"/>',
   props: {
     mqttHost: {
       type: String,
@@ -63,10 +63,12 @@ export default {
     },
     handleConnectSuccess () {
       console.debug('handleConnectSuccess()');
+      this.data.actions.submit.disabled = false;
       this.data.messages.general = '';
     },
     handleConnectError (error) {
-      console.error('error', error);
+      console.error(error);
+      this.data.actions.submit.disabled = true;
     }
   },
   computed: {
