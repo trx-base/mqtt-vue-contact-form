@@ -1,17 +1,18 @@
 <html>
   <head>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+      <title>Demo: mqtt-vue-contact-form</title>
+    <script src="lib/vue.global.js"></script>
+    <script src="lib/mqtt.js"></script>
     <script type="module"></script>
   </head>
   <body>
     <h1>mqtt-vue-contact-form</h1>
     <div id="MqttVueContactForm">
       <Component
-        :mqttHost="mqttHost"
-        :mqttTopic="mqttTopic"
-        :mqttUsername="mqttUsernaname"
-        :mqttPassword="mqttPassword"
+        :mqtt-host="mqttHost"
+        :mqtt-topic="mqttTopic"
+        :mqtt-username="mqttUsername"
+        :mqtt-password="mqttPassword"
         v-slot="slotProps"
       >
         <label>Name:</label><br />

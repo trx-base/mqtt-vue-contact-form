@@ -44,6 +44,7 @@ export default {
     getMqttConnectionOptions () {
       const mqttConnectionOptions = {};
       mqttConnectionOptions.clientId = this.mqttClientId;
+      mqttConnectionOptions.clean = true;
       if (this.mqttUsername) {
         mqttConnectionOptions.username = this.mqttUsername;
       }
@@ -51,11 +52,17 @@ export default {
         mqttConnectionOptions.password = this.mqttPassword;
       }
       return mqttConnectionOptions;
+    },
+    handleConnectSuccess () {
+      console.debug('handleConnectSuccess()');
+    },
+    handleConnectError (error) {
+      console.error('error', error);
     }
   },
   computed: {
     mqttTargetTopic () {
-      return '/mqtt-vue-contact-form/' + this.mqttTopic + '/submit';
+      return 'mqtt-vue-contact-form/' + this.mqttTopic + '/submit';
     },
     mqttClientId () {
       return this.mqttTopic + '_' + util.random();
@@ -64,5 +71,7 @@ export default {
   mounted () {
     // eslint-disable-next-line no-undef
     this.mqttClient = mqtt.connect(this.mqttHost, this.getMqttConnectionOptions());
+    this.mqttClient.on('connect', this.handleConnectSuccess);
+    this.mqttClient.on('error', this.handleConnectError);
   }
 };

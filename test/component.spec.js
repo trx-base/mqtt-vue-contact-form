@@ -28,7 +28,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom' });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true });
   });
 
   it('should publish to topic when submit', async () => {
@@ -39,7 +39,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
     wrapper.vm.submit();
-    expect(mqtt.connect().publish).toHaveBeenCalledWith('/mqtt-vue-contact-form/test/expected/topic/submit', '{}');
+    expect(mqtt.connect().publish).toHaveBeenCalledWith('mqtt-vue-contact-form/test/expected/topic/submit', '{}');
   });
 
   it('should use username and password when connecting to mqtt broker', () => {
@@ -52,7 +52,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', username: 'expectedUsername', password: 'expectedPassword' });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', username: 'expectedUsername', password: 'expectedPassword', clean: true });
   });
 
   it('should set clientId when connecting to mqtt broker', () => {
@@ -63,6 +63,6 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom' });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true });
   });
 });
