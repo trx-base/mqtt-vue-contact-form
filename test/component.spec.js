@@ -4,7 +4,7 @@ import Component from '../src/component';
 
 // Init Mocks
 const mqtt = {
-  connect: vi.fn().mockReturnValue({ publish: vi.fn() })
+  connect: vi.fn().mockReturnValue({ publish: vi.fn(), on: vi.fn() })
 };
 vi.stubGlobal('mqtt', mqtt);
 
@@ -62,7 +62,36 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'jestTest'
       }
     });
-
     expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true });
+  });
+
+  it('should have message when mqtt connection preparation', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    expect(wrapper.vm.data.messages.general).toBe('Form is being prepared. Please wait.');
+  });
+
+  it('should have disabled submit when mqtt connection preparation', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
+  });
+
+  it('should have message when mqtt connection success', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    expect(wrapper.vm.data.messages.general).toBe('Form is being prepared. Please wait.');
   });
 });

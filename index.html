@@ -24,7 +24,7 @@
         <label>Message:</label><br />
         <textarea v-model="slotProps.data.values.message"></textarea><br />
 
-        <button @click="slotProps.submit">Submit</button><br />
+        <button @click="slotProps.submit" :disabled="slotProps.data.actions.submit.disabled">Submit</button><br />
         <div v-text="slotProps.data.messages.general"></div>
       </Component>
     </div>

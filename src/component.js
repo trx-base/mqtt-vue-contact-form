@@ -27,9 +27,17 @@ export default {
     return {
       mqttClient: {},
       data: {
-        values: {},
+        values: {
+
+        },
+        actions: {
+          submit: {
+            disabled: true,
+            execute: this.submit
+          }
+        },
         messages: {
-          general: ''
+          general: 'Form is being prepared. Please wait.'
         }
       }
 
@@ -55,6 +63,7 @@ export default {
     },
     handleConnectSuccess () {
       console.debug('handleConnectSuccess()');
+      this.data.messages.general = '';
     },
     handleConnectError (error) {
       console.error('error', error);
