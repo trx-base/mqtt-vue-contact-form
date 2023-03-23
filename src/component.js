@@ -26,6 +26,7 @@ export default {
   data () {
     return {
       mqttClient: {},
+      mqttProtocolVersion: 5,
       data: {
         values: {
 
@@ -51,6 +52,7 @@ export default {
     },
     getMqttConnectionOptions () {
       const mqttConnectionOptions = {};
+      mqttConnectionOptions.protocolVersion = this.mqttProtocolVersion;
       mqttConnectionOptions.clientId = this.mqttClientId;
       mqttConnectionOptions.clean = true;
       if (this.mqttUsername) {
@@ -69,6 +71,11 @@ export default {
     handleConnectError (error) {
       console.error(error);
       this.data.actions.submit.disabled = true;
+    },
+    handleConnectClose (message) {
+      console.warn(message);
+      this.data.actions.submit.disabled = true;
+      this.data.messages.general = 'Form is being prepared. Please wait.';
     }
   },
   computed: {
@@ -83,6 +90,6 @@ export default {
     // eslint-disable-next-line no-undef
     this.mqttClient = mqtt.connect(this.mqttHost, this.getMqttConnectionOptions());
     this.mqttClient.on('connect', this.handleConnectSuccess);
-    this.mqttClient.on('error', this.handleConnectError);
+    this.mqttClient.on('close', this.handleConnectClose);
   }
 };

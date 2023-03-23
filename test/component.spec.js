@@ -28,7 +28,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true, protocolVersion: 5 });
   });
 
   it('should publish to topic when submit', async () => {
@@ -52,7 +52,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', username: 'expectedUsername', password: 'expectedPassword', clean: true });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', username: 'expectedUsername', password: 'expectedPassword', clean: true, protocolVersion: 5 });
   });
 
   it('should set clientId when connecting to mqtt broker', () => {
@@ -62,7 +62,7 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'jestTest'
       }
     });
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true, protocolVersion: 5 });
   });
 
   it('should have message when mqtt connection preparation', () => {
@@ -126,5 +126,19 @@ describe('mqtt-vue-contact-form', () => {
     });
     wrapper.vm.handleConnectError('Expected test error.');
     expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
+  });
+
+  it('should have disabled submit when mqtt connection disconnect after success', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.handleConnectSuccess();
+    expect(wrapper.vm.data.actions.submit.disabled).toBe(false);
+    wrapper.vm.handleConnectClose('Expected test close.');
+    expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
+    expect(wrapper.vm.data.messages.general).toBe('Form is being prepared. Please wait.');
   });
 });
