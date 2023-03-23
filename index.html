@@ -25,7 +25,7 @@
         <textarea v-model="slotProps.data.values.message"></textarea><br />
 
         <button @click="slotProps.submit">Submit</button><br />
-        <div>{{ slotProps.data.messages.general }}</div>
+        <div v-text="slotProps.data.messages.general"></div>
       </Component>
     </div>
   </body>
