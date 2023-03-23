@@ -130,4 +130,50 @@ describe('mqtt-vue-contact-form', () => {
     expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
     expect(wrapper.vm.data.messages.general).toBe('Form is being prepared. Please wait.');
   });
+
+  it('should set message when handlePublishCallback() contains error', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.handlePublishCallback('Expected error');
+    expect(wrapper.vm.data.messages.general).toBe('Sorry! Submit failed. This should not have happened.');
+  });
+
+  it('should not reset values when handlePublishCallback() contains error', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.data.values = { value1: 'Expected value' };
+    wrapper.vm.handlePublishCallback('Expected error');
+    expect(wrapper.vm.data.values.value1).toBe('Expected value');
+  });
+
+  it('should set message when handlePublishCallback() without error', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.handlePublishCallback();
+    expect(wrapper.vm.data.messages.general).toBe('Thank you for reaching out to us. Our team will be in touch with you soon.');
+  });
+
+  it('should reset values when handlePublishCallback() without error', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.data.values = { value1: 'Expected value' };
+    wrapper.vm.handlePublishCallback();
+    expect(wrapper.vm.data.values).toStrictEqual({});
+  });
 });
