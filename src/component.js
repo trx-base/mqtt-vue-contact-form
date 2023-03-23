@@ -3,7 +3,7 @@ Prerequisites:
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 */
-import * as util from './util';
+import * as util from './util.js';
 
 export default {
   template: '<slot :data="data" :submit="submit"/>',

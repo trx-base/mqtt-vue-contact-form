@@ -1,4 +1,4 @@
-import vue from 'rollup-plugin-vue'
+import vue from 'rollup-plugin-vue';
 
 export default [
   {
@@ -8,10 +8,9 @@ export default [
         format: 'esm',
         file: 'dist/library.js'
       }
-     
     ],
     plugins: [
       vue()
     ]
   }
-]
+];

@@ -39,7 +39,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
     wrapper.vm.submit();
-    expect(mqtt.connect().publish).toHaveBeenCalled();
+    expect(mqtt.connect().publish).toHaveBeenCalledWith('/mqtt-vue-contact-form/test/expected/topic/submit', '{}');
   });
 
   it('should use username and password when connecting to mqtt broker', () => {
