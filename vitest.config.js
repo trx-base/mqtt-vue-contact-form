@@ -9,7 +9,11 @@ export default defineConfig({
     environment: 'happy-dom',
     coverage: {
       include: ['src'],
-      reporter: ['text', 'json', 'html']
+      reporter: ['text', 'json', 'html'],
+      lines: 100,
+      branches: 100,
+      functions: 100,
+      statements: 100
     }
   }
 });
