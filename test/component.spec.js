@@ -39,7 +39,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
     wrapper.vm.submit();
-    expect(mqtt.connect().publish).toHaveBeenCalledWith('mqtt-vue-contact-form/test/expected/topic/submit', '{}');
+    expect(mqtt.connect().publish).toHaveBeenCalledWith('mqtt-vue-contact-form/test/expected/topic/submit', '{}', { qos: 2 }, wrapper.vm.handlePublishCallback);
   });
 
   it('should use username and password when connecting to mqtt broker', () => {
@@ -103,7 +103,7 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
     wrapper.vm.data.actions.submit.execute();
-    expect(mqtt.connect().publish).toHaveBeenCalledWith('mqtt-vue-contact-form/test/expected/topic/submit', '{}');
+    expect(mqtt.connect().publish).toHaveBeenCalledWith('mqtt-vue-contact-form/test/expected/topic/submit', '{}', { qos: 2 }, wrapper.vm.handlePublishCallback);
   });
 
   it('should have enabled submit when mqtt connection success', () => {
