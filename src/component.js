@@ -28,6 +28,7 @@ export default {
       mqttClient: {},
       mqttProtocolVersion: 5,
       data: {
+        status: 'NONE',
         values: {
 
         },
@@ -36,9 +37,6 @@ export default {
             disabled: true,
             execute: this.submit
           }
-        },
-        messages: {
-          general: 'Form is being prepared. Please wait.'
         }
       }
 
@@ -63,21 +61,21 @@ export default {
     },
     handleConnectSuccess () {
       console.debug('handleConnectSuccess()');
+      this.data.status = 'CONNECTED';
       this.data.actions.submit.disabled = false;
-      this.data.messages.general = '';
     },
     handleConnectClose (message) {
       console.warn('handleConnectClose(): ' + message);
+      this.data.status = 'DISCONNECTED';
       this.data.actions.submit.disabled = true;
-      this.data.messages.general = 'Form is being prepared. Please wait.';
     },
     handlePublishCallback (error) {
       console.debug('handlePublishCallback(): ' + error);
       if (error) {
-        this.data.messages.general = 'Sorry! Submit failed. This should not have happened.';
+        this.data.status = 'ERROR';
       } else {
+        this.data.status = 'SUCCESS';
         this.data.values = {};
-        this.data.messages.general = 'Thank you for reaching out to us. Our team will be in touch with you soon.';
       }
     }
   },

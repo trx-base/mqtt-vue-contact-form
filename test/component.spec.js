@@ -65,16 +65,6 @@ describe('mqtt-vue-contact-form', () => {
     expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true, protocolVersion: 5 });
   });
 
-  it('should have message when mqtt connection preparation', () => {
-    const wrapper = mount(Component, {
-      propsData: {
-        mqttHost: 'wss://expectedHost',
-        mqttTopic: 'jestTest'
-      }
-    });
-    expect(wrapper.vm.data.messages.general).toBe('Form is being prepared. Please wait.');
-  });
-
   it('should have disabled submit when mqtt connection preparation', () => {
     const wrapper = mount(Component, {
       propsData: {
@@ -83,16 +73,6 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
     expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
-  });
-
-  it('should have message when mqtt connection success', () => {
-    const wrapper = mount(Component, {
-      propsData: {
-        mqttHost: 'wss://expectedHost',
-        mqttTopic: 'jestTest'
-      }
-    });
-    expect(wrapper.vm.data.messages.general).toBe('Form is being prepared. Please wait.');
   });
 
   it('should publish to topic when action.submit executed', async () => {
@@ -128,18 +108,6 @@ describe('mqtt-vue-contact-form', () => {
     expect(wrapper.vm.data.actions.submit.disabled).toBe(false);
     wrapper.vm.handleConnectClose('Expected test close.');
     expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
-    expect(wrapper.vm.data.messages.general).toBe('Form is being prepared. Please wait.');
-  });
-
-  it('should set message when handlePublishCallback() contains error', () => {
-    const wrapper = mount(Component, {
-      propsData: {
-        mqttHost: 'wss://expectedHost',
-        mqttTopic: 'jestTest'
-      }
-    });
-    wrapper.vm.handlePublishCallback('Expected error');
-    expect(wrapper.vm.data.messages.general).toBe('Sorry! Submit failed. This should not have happened.');
   });
 
   it('should not reset values when handlePublishCallback() contains error', () => {
@@ -154,17 +122,6 @@ describe('mqtt-vue-contact-form', () => {
     expect(wrapper.vm.data.values.value1).toBe('Expected value');
   });
 
-  it('should set message when handlePublishCallback() without error', () => {
-    const wrapper = mount(Component, {
-      propsData: {
-        mqttHost: 'wss://expectedHost',
-        mqttTopic: 'jestTest'
-      }
-    });
-    wrapper.vm.handlePublishCallback();
-    expect(wrapper.vm.data.messages.general).toBe('Thank you for reaching out to us. Our team will be in touch with you soon.');
-  });
-
   it('should reset values when handlePublishCallback() without error', () => {
     const wrapper = mount(Component, {
       propsData: {
@@ -175,5 +132,33 @@ describe('mqtt-vue-contact-form', () => {
     wrapper.vm.data.values = { value1: 'Expected value' };
     wrapper.vm.handlePublishCallback();
     expect(wrapper.vm.data.values).toStrictEqual({});
+  });
+
+  it('should have status "NONE" when mounted', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    expect(wrapper.vm.data.status).toBe('NONE');
+  });
+
+  it('should change status when given different actions', () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    expect(wrapper.vm.data.status).toBe('NONE');
+    wrapper.vm.handleConnectSuccess();
+    expect(wrapper.vm.data.status).toBe('CONNECTED');
+    wrapper.vm.handleConnectClose();
+    expect(wrapper.vm.data.status).toBe('DISCONNECTED');
+    wrapper.vm.handlePublishCallback();
+    expect(wrapper.vm.data.status).toBe('SUCCESS');
+    wrapper.vm.handlePublishCallback('Error');
+    expect(wrapper.vm.data.status).toBe('ERROR');
   });
 });
