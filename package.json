@@ -1,13 +1,13 @@
 {
   "name": "@trx-base/mqtt-vue-contact-form",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A Vue renderless component for a contact form.",
   "main": "dist/component.js",
   "files": [
     "dist/*"
   ],
   "scripts": {
-    "build": "cp -r ./src  ./dist",
+    "build": "cp -r ./src/  ./dist",
     "test": "vitest --dom",
     "coverage": "vitest run --coverage",
     "demo": "browser-sync start --server '.' --files '.' --single"

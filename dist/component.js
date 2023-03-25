@@ -6,7 +6,7 @@ Prerequisites:
 import * as util from './util.js';
 
 export default {
-  template: '<slot :data="data"/>',
+  template: '<slot :component="component"/>',
   props: {
     mqttHost: {
       type: String,
@@ -27,18 +27,14 @@ export default {
     return {
       mqttClient: {},
       mqttProtocolVersion: 5,
-      data: {
-        values: {
-
-        },
+      component: {
+        status: 'NONE',
+        values: {},
         actions: {
           submit: {
             disabled: true,
             execute: this.submit
           }
-        },
-        messages: {
-          general: 'Form is being prepared. Please wait.'
         }
       }
 
@@ -46,7 +42,7 @@ export default {
   },
   methods: {
     submit () {
-      this.mqttClient.publish(this.mqttTargetTopic, JSON.stringify(this.data.values), { qos: 2 }, this.handlePublishCallback);
+      this.mqttClient.publish(this.mqttTargetTopic, JSON.stringify(this.component.values), { qos: 2 }, this.handlePublishCallback);
     },
     getMqttConnectionOptions () {
       const mqttConnectionOptions = {};
@@ -63,21 +59,19 @@ export default {
     },
     handleConnectSuccess () {
       console.debug('handleConnectSuccess()');
-      this.data.actions.submit.disabled = false;
-      this.data.messages.general = '';
+      this.component.status = 'CONNECTED';
     },
     handleConnectClose (message) {
       console.warn('handleConnectClose(): ' + message);
-      this.data.actions.submit.disabled = true;
-      this.data.messages.general = 'Form is being prepared. Please wait.';
+      this.component.status = 'DISCONNECTED';
     },
     handlePublishCallback (error) {
       console.debug('handlePublishCallback(): ' + error);
       if (error) {
-        this.data.messages.general = 'Sorry! Submit failed. This should not have happened.';
+        this.component.status = 'ERROR';
       } else {
-        this.data.values = {};
-        this.data.messages.general = 'Thank you for reaching out to us. Our team will be in touch with you soon.';
+        this.component.status = 'SUCCESS';
+        this.component.values = {};
       }
     }
   },
@@ -87,6 +81,23 @@ export default {
     },
     mqttClientId () {
       return this.mqttTopic + '_' + util.random();
+    }
+  },
+  watch: {
+    'component.status' (newStatus, oldStatus) {
+      switch (newStatus) {
+        case 'SUCCESS':
+        case 'CONNECTED':
+          this.component.actions.submit.disabled = false;
+          break;
+        case 'NONE':
+        case 'DISCONNECTED':
+        case 'ERROR':
+          this.component.actions.submit.disabled = true;
+          break;
+        default:
+          throw new Error('Unexpected status: ' + newStatus + '. Old status: ' + oldStatus);
+      }
     }
   },
   mounted () {
