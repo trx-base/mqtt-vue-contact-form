@@ -16,16 +16,16 @@
         v-slot="slotProps"
       >
         <label>Name:</label><br />
-        <input v-model="slotProps.data.values.name" /><br />
+        <input v-model="slotProps.component.values.name" /><br />
 
         <label>Email:</label><br />
-        <input v-model="slotProps.data.values.email" /><br />
+        <input v-model="slotProps.component.values.email" /><br />
 
         <label>Message:</label><br />
-        <textarea v-model="slotProps.data.values.message"></textarea><br />
+        <textarea v-model="slotProps.component.values.message"></textarea><br />
 
-        <button @click="slotProps.data.actions.submit.execute" :disabled="slotProps.data.actions.submit.disabled">Submit</button><br />
-        <div v-text="slotProps.data.messages.general"></div>
+        <button @click="slotProps.component.actions.submit.execute" :disabled="slotProps.component.actions.submit.disabled">Submit</button><br />
+        <div>Implement me!</div>
       </Component>
     </div>
   </body>

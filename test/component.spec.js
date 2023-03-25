@@ -1,6 +1,7 @@
 import { describe, it, vi, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Component from '../src/component';
+import { nextTick } from 'vue';
 
 // Init Mocks
 const mqtt = {
@@ -72,7 +73,7 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'jestTest'
       }
     });
-    expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
+    expect(wrapper.vm.component.actions.submit.disabled).toBe(true);
   });
 
   it('should publish to topic when action.submit executed', async () => {
@@ -82,11 +83,11 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'test/expected/topic'
       }
     });
-    wrapper.vm.data.actions.submit.execute();
+    wrapper.vm.component.actions.submit.execute();
     expect(mqtt.connect().publish).toHaveBeenCalledWith('mqtt-vue-contact-form/test/expected/topic/submit', '{}', { qos: 2 }, wrapper.vm.handlePublishCallback);
   });
 
-  it('should have enabled submit when mqtt connection success', () => {
+  it('should have enabled submit when mqtt connection success', async () => {
     const wrapper = mount(Component, {
       propsData: {
         mqttHost: 'wss://expectedHost',
@@ -94,10 +95,11 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
     wrapper.vm.handleConnectSuccess();
-    expect(wrapper.vm.data.actions.submit.disabled).toBe(false);
+    await nextTick();
+    expect(wrapper.vm.component.actions.submit.disabled).toBe(false);
   });
 
-  it('should have disabled submit when mqtt connection disconnect after success', () => {
+  it('should have disabled submit when mqtt connection disconnect after success', async () => {
     const wrapper = mount(Component, {
       propsData: {
         mqttHost: 'wss://expectedHost',
@@ -105,9 +107,11 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
     wrapper.vm.handleConnectSuccess();
-    expect(wrapper.vm.data.actions.submit.disabled).toBe(false);
+    await nextTick();
+    expect(wrapper.vm.component.actions.submit.disabled).toBe(false);
     wrapper.vm.handleConnectClose('Expected test close.');
-    expect(wrapper.vm.data.actions.submit.disabled).toBe(true);
+    await nextTick();
+    expect(wrapper.vm.component.actions.submit.disabled).toBe(true);
   });
 
   it('should not reset values when handlePublishCallback() contains error', () => {
@@ -117,9 +121,9 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'jestTest'
       }
     });
-    wrapper.vm.data.values = { value1: 'Expected value' };
+    wrapper.vm.component.values = { value1: 'Expected value' };
     wrapper.vm.handlePublishCallback('Expected error');
-    expect(wrapper.vm.data.values.value1).toBe('Expected value');
+    expect(wrapper.vm.component.values.value1).toBe('Expected value');
   });
 
   it('should reset values when handlePublishCallback() without error', () => {
@@ -129,9 +133,9 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'jestTest'
       }
     });
-    wrapper.vm.data.values = { value1: 'Expected value' };
+    wrapper.vm.component.values = { value1: 'Expected value' };
     wrapper.vm.handlePublishCallback();
-    expect(wrapper.vm.data.values).toStrictEqual({});
+    expect(wrapper.vm.component.values).toStrictEqual({});
   });
 
   it('should have status "NONE" when mounted', () => {
@@ -141,7 +145,7 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'jestTest'
       }
     });
-    expect(wrapper.vm.data.status).toBe('NONE');
+    expect(wrapper.vm.component.status).toBe('NONE');
   });
 
   it('should change status when given different actions', () => {
@@ -151,14 +155,14 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'jestTest'
       }
     });
-    expect(wrapper.vm.data.status).toBe('NONE');
+    expect(wrapper.vm.component.status).toBe('NONE');
     wrapper.vm.handleConnectSuccess();
-    expect(wrapper.vm.data.status).toBe('CONNECTED');
+    expect(wrapper.vm.component.status).toBe('CONNECTED');
     wrapper.vm.handleConnectClose();
-    expect(wrapper.vm.data.status).toBe('DISCONNECTED');
+    expect(wrapper.vm.component.status).toBe('DISCONNECTED');
     wrapper.vm.handlePublishCallback();
-    expect(wrapper.vm.data.status).toBe('SUCCESS');
+    expect(wrapper.vm.component.status).toBe('SUCCESS');
     wrapper.vm.handlePublishCallback('Error');
-    expect(wrapper.vm.data.status).toBe('ERROR');
+    expect(wrapper.vm.component.status).toBe('ERROR');
   });
 });

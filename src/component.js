@@ -6,7 +6,7 @@ Prerequisites:
 import * as util from './util.js';
 
 export default {
-  template: '<slot :data="data"/>',
+  template: '<slot :component="component"/>',
   props: {
     mqttHost: {
       type: String,
@@ -27,7 +27,7 @@ export default {
     return {
       mqttClient: {},
       mqttProtocolVersion: 5,
-      data: {
+      component: {
         status: 'NONE',
         values: {
 
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     submit () {
-      this.mqttClient.publish(this.mqttTargetTopic, JSON.stringify(this.data.values), { qos: 2 }, this.handlePublishCallback);
+      this.mqttClient.publish(this.mqttTargetTopic, JSON.stringify(this.component.values), { qos: 2 }, this.handlePublishCallback);
     },
     getMqttConnectionOptions () {
       const mqttConnectionOptions = {};
@@ -61,21 +61,19 @@ export default {
     },
     handleConnectSuccess () {
       console.debug('handleConnectSuccess()');
-      this.data.status = 'CONNECTED';
-      this.data.actions.submit.disabled = false;
+      this.component.status = 'CONNECTED';
     },
     handleConnectClose (message) {
       console.warn('handleConnectClose(): ' + message);
-      this.data.status = 'DISCONNECTED';
-      this.data.actions.submit.disabled = true;
+      this.component.status = 'DISCONNECTED';
     },
     handlePublishCallback (error) {
       console.debug('handlePublishCallback(): ' + error);
       if (error) {
-        this.data.status = 'ERROR';
+        this.component.status = 'ERROR';
       } else {
-        this.data.status = 'SUCCESS';
-        this.data.values = {};
+        this.component.status = 'SUCCESS';
+        this.component.values = {};
       }
     }
   },
@@ -85,6 +83,23 @@ export default {
     },
     mqttClientId () {
       return this.mqttTopic + '_' + util.random();
+    }
+  },
+  watch: {
+    'component.status' (newStatus, oldStatus) {
+      switch (newStatus) {
+        case 'SUCCESS':
+        case 'CONNECTED':
+          this.component.actions.submit.disabled = false;
+          break;
+        case 'NONE':
+        case 'DISCONNECTED':
+        case 'ERROR':
+          this.component.actions.submit.disabled = true;
+          break;
+        default:
+          throw new Error('Unexpected status: ' + newStatus + '. Old status: ' + oldStatus);
+      }
     }
   },
   mounted () {
