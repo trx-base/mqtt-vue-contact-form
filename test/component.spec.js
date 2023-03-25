@@ -190,4 +190,18 @@ describe('mqtt-vue-contact-form', () => {
     wrapper.vm.component.status = 'SHOULD NOT EXIST';
     await expect(nextTick()).rejects.toThrowError();
   });
+
+  it('should set submit disabled when status changed to NONE', async () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.component.status = 'CONNECTED';
+    await nextTick();
+    wrapper.vm.component.status = 'NONE';
+    await nextTick();
+    expect(wrapper.vm.component.actions.submit.disabled).toBe(true);
+  });
 });
