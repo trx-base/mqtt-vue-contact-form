@@ -29,9 +29,7 @@ export default {
       mqttProtocolVersion: 5,
       component: {
         status: 'NONE',
-        values: {
-
-        },
+        values: {},
         actions: {
           submit: {
             disabled: true,
