@@ -1,4 +1,4 @@
-import { describe, it, vi, expect } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Component from '../src/component';
 import { nextTick } from 'vue';
@@ -29,7 +29,11 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true, protocolVersion: 5 });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', {
+      clientId: 'jestTest_mockedRandom',
+      clean: true,
+      protocolVersion: 5
+    });
   });
 
   it('should publish to topic when submit', async () => {
@@ -53,7 +57,13 @@ describe('mqtt-vue-contact-form', () => {
       }
     });
 
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', username: 'expectedUsername', password: 'expectedPassword', clean: true, protocolVersion: 5 });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', {
+      clientId: 'jestTest_mockedRandom',
+      username: 'expectedUsername',
+      password: 'expectedPassword',
+      clean: true,
+      protocolVersion: 5
+    });
   });
 
   it('should set clientId when connecting to mqtt broker', () => {
@@ -63,7 +73,11 @@ describe('mqtt-vue-contact-form', () => {
         mqttTopic: 'jestTest'
       }
     });
-    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', { clientId: 'jestTest_mockedRandom', clean: true, protocolVersion: 5 });
+    expect(mqtt.connect).toHaveBeenCalledWith('wss://expectedHost', {
+      clientId: 'jestTest_mockedRandom',
+      clean: true,
+      protocolVersion: 5
+    });
   });
 
   it('should have disabled submit when mqtt connection preparation', () => {
@@ -164,5 +178,16 @@ describe('mqtt-vue-contact-form', () => {
     expect(wrapper.vm.component.status).toBe('SUCCESS');
     wrapper.vm.handlePublishCallback('Error');
     expect(wrapper.vm.component.status).toBe('ERROR');
+  });
+
+  it('should throw error when unexpected status set', async () => {
+    const wrapper = mount(Component, {
+      propsData: {
+        mqttHost: 'wss://expectedHost',
+        mqttTopic: 'jestTest'
+      }
+    });
+    wrapper.vm.component.status = 'SHOULD NOT EXIST';
+    await expect(nextTick()).rejects.toThrowError();
   });
 });
