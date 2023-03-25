@@ -1,47 +1,62 @@
 <html>
-  <head>
-      <title>Demo: mqtt-vue-contact-form</title>
+<head>
+    <title>Demo: mqtt-vue-contact-form</title>
     <script src="lib/vue.global.js"></script>
     <script src="lib/mqtt.js"></script>
     <script type="module"></script>
-  </head>
-  <body>
-    <h1>mqtt-vue-contact-form</h1>
-    <div id="MqttVueContactForm">
-      <Component
-        :mqtt-host="mqttHost"
-        :mqtt-topic="mqttTopic"
-        :mqtt-username="mqttUsername"
-        :mqtt-password="mqttPassword"
-        v-slot="slotProps"
-      >
-        <label>Name:</label><br />
-        <input v-model="slotProps.component.values.name" /><br />
+</head>
+<body>
+<h1>mqtt-vue-contact-form</h1>
+<div id="MqttVueContactForm">
+    <Component
+            :mqtt-host="mqttHost"
+            :mqtt-topic="mqttTopic"
+            :mqtt-username="mqttUsername"
+            :mqtt-password="mqttPassword"
+            v-slot="slotProps"
+    >
+        <label>Name:</label><br/>
+        <input v-model="slotProps.component.values.name"/><br/>
 
-        <label>Email:</label><br />
-        <input v-model="slotProps.component.values.email" /><br />
+        <label>Email:</label><br/>
+        <input v-model="slotProps.component.values.email"/><br/>
 
-        <label>Message:</label><br />
-        <textarea v-model="slotProps.component.values.message"></textarea><br />
+        <label>Message:</label><br/>
+        <textarea v-model="slotProps.component.values.message"></textarea><br/>
 
-        <button @click="slotProps.component.actions.submit.execute" :disabled="slotProps.component.actions.submit.disabled">Submit</button><br />
-        <div>Implement me!</div>
-      </Component>
-    </div>
-  </body>
-  <script type="module">
+        <button @click="slotProps.component.actions.submit.execute"
+                :disabled="slotProps.component.actions.submit.disabled">Submit
+        </button>
+        <br/>
+        <div v-text="getMessage(slotProps)"></div>
+    </Component>
+</div>
+</body>
+<script type="module">
     // import Component from "https://unpkg.com/@trx-base/mqtt-vue-contact-form";  //production
     import Component from "./src/component.js";
+
     Vue.createApp({
-      components: { Component },
-      data() {
-        return {
-          mqttHost: "wss://public.trxbroker.org/mqtt",
-          mqttTopic: "demo",
-          mqttUsername: "mqtt-vue-contact-form",
-          mqttPassword: "o8qIQJ5xbzT3Wy2G"
-        };
-      },
+        components: {Component},
+        data() {
+            return {
+                mqttHost: "wss://public.trxbroker.org/mqtt",
+                mqttTopic: "demo",
+                mqttUsername: "mqtt-vue-contact-form",
+                mqttPassword: "o8qIQJ5xbzT3Wy2G"
+            };
+        },
+        methods: {
+            getMessage(slotProps) {
+                switch (slotProps.component.status) {
+                    case 'SUCCESS':
+                        return "Thank you for reaching out to us. Our team will be in touch with you soon."
+                    default:
+                        return "";
+                }
+            }
+        }
+
     }).mount("#MqttVueContactForm");
-  </script>
+</script>
 </html>
